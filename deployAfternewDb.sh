@@ -1,3 +1,5 @@
+# Run this script after importing new database.
+
 drush vset cdn_status 0 -y
 drush en stage_file_proxy -y
 drush en context_ui -y
