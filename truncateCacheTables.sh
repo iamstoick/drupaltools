@@ -1,3 +1,5 @@
+# Scrub all entry in cache tables.
+
 drush sqlq "truncate cache;"
 drush sqlq "truncate cache_block;"
 drush sqlq "truncate cache_page;"
