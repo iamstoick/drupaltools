@@ -10,8 +10,8 @@
 # You can use chmod a+x createvhost.sh.
 
 
-# Usage: sudo ./createvhost.sh [projectName] [fakeDomain] [projectPath]
-# Ex: sudo ./createvhost.sh mydrupalblog dev.mydrupalblog.com /home/gerald/dev/html/drupalblog
+# Usage: sudo ./createVhost.sh [projectName] [fakeDomain] [projectPath]
+# Ex: sudo ./createVhost.sh mydrupalblog dev.mydrupalblog.com /home/gerald/dev/html/drupalblog
 
 # Help function.
 help() {
@@ -100,7 +100,3 @@ sudo /etc/init.d/apache2 restart
 echo ""
 echo ""
 echo "Done!"
-
-
-
-
