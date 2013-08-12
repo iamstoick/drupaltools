@@ -4,12 +4,12 @@
 usage() {
   echo ""
   echo ""
-	echo "  ./install-drupal.sh [project-name] [target] [drupal-version]"
-	echo ""
-	echo ""
+  echo "  ./install-drupal.sh [project-name] [target] [drupal-version]"
+  echo ""
+  echo ""
   echo "  project-name                  The name of the project. This will be the name of the downloaded Drupal folder."
-	echo "  target                        The directory you wanted the Drupal will be save to."
-	echo "  drupal-version                The version of Drupal you wanted to download. Options are: drupal, drupal-7.x, drupal-6"
+  echo "  target                        The directory you wanted the Drupal will be save to."
+  echo "  drupal-version                The version of Drupal you wanted to download. Options are: drupal, drupal-7.x, drupal-6"
   echo ""
   echo ""
   echo "  Examples:"
@@ -26,10 +26,10 @@ if [ -z "$1" ]; then
   exit 1
 else 
   # Check if the supplied parameter is --help.
-	# Display the help if true.
-	if [ "$1" == "--help" ]; then
-		usage
-	else
+  # Display the help if true.
+  if [ "$1" == "--help" ]; then
+    usage
+  else
     PROJECT=$1
   fi
 fi
@@ -40,12 +40,12 @@ if [ -z "$2" ]; then
   exit 1
 else
   # Check if the path specified exists.
-	if [ -d "$2" ]; then
-		TARGETPATH=$2
-	else
-		echo "The path you specified does not exist."
-		exit 1
-	fi
+  if [ -d "$2" ]; then
+    TARGETPATH=$2
+  else
+    echo "The path you specified does not exist."
+    exit 1
+  fi
 fi
 
 # Validate the third parameter.
@@ -90,7 +90,7 @@ echo "Would you like to continue?[Yes/No]"
 read CONTINUE
 if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
   # Run the setup.
-	echo "Collect all necessary variables."
+  echo "Collect all necessary variables."
   echo ""
   echo "Enter your MySQL username."
   read DBUSERNAME
@@ -115,9 +115,9 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   read SITEEMAIL
   if [ "$VERSION" == "drupal-6" ]; then
     PROFILE="default"
-	else 
-	  PROFILE="standard"
-	fi
+  else 
+    PROFILE="standard"
+  fi
   
   # Run the installer.
   drush site-install $PROFILE --db-url=mysql://$DBUSERNAME:$DBPASSWORD@localhost:$DBPORT/$DBNAME --account-mail=$DRUPALADMINEMAIL --account-name=$DRUPALUSERNAME --account-pass=DRUPALPASSWORD --site-name=$DRUPALSITENAME --site-mail=$SITEEMAIL
