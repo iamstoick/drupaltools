@@ -8,7 +8,7 @@ usage() {
   echo ""
   echo ""
   echo "  project-name                  The name of the project. This will be the name of the downloaded Drupal folder."
-  echo "  target                        The directory you wanted the Drupal will be save to."
+  echo "  target                        The directory you wanted the Drupal will be save to. Make sure that the target ends with /."
   echo "  drupal-version                The version of Drupal you wanted to download. Options are: drupal, drupal-7.x, drupal-6"
   echo ""
   echo ""
@@ -56,10 +56,13 @@ if [ -z "$3" ]; then
   echo "Please check your second parameter, it appears to be empty. Read the guide using ./install-drupal.sh --help"
   exit 1
 else 
+  # The version that is going download is the latest Drupal 7.
   if [ "$3" == "drupal-7.x" ]; then
     VERSION=$3
+  # The version that is going download is the latest Drupal 6.
   elif [ "$3" == "drupal-6" ]; then
     VERSION=$3
+  # The version that is going download is the latest stable Drupal.
   elif [ "$3" == "drupal" ]; then
     VERSION=$3    
   else
@@ -91,8 +94,10 @@ cd $PROJECT
 # Setup process.
 echo "Would you like to continue?[Yes/No]"
 read CONTINUE
+# Execute when the user agree.
 if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
   # Run the setup.
+  echo ""
   echo "Collect all necessary variables."
   echo ""
   echo "Enter your MySQL username."
@@ -127,7 +132,7 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   
   echo "Installation done."
   echo ""
-  echo "Would you like to create new virtual host entry?"
+  echo "Would you like to create new virtual host entry?[Yes/No]"
   read CONFIRM
   if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
     ABSOLUTEPATH=$TARGETPATH$PROJECT
@@ -135,6 +140,7 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
     read FAKEDOMAIN
     # Navigate back to scripts directory.
     cd $SCRIPTSDIR
+    # Create a new virtual host entry.
     sudo ./createVhost.sh $PROJECT $FAKEDOMAIN $TARGETPATH$PROJECT
   else
     exit 1
