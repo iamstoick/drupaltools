@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# A utility script to lessen the effort of setting up of Drupal.
+#
+# Written by Gerald Villorente.
+#
+# This script can be use to directly download the Drupal package. The Drupal version can be specify by specifying # the Drupal version in the parameter - see the manual. After downloading the installer will execute the Drupal 
+# setup process. You have to supply the necessary informations first like DB and Drupal login creds before 
+# running the setup.
+#
+# This script requires Drush.
+#
+# Note: This is not tested on Drupal 8 yet. Use this script with extra care.
+
 # Help
 usage() {
   echo ""
