@@ -20,6 +20,9 @@ usage() {
   exit 1
 }
 
+# Get the scripts root directory.
+SCRIPTSDIR=$(pwd)
+
 # Validate the first parameter.
 if [ -z "$1" ]; then
   echo "Please check your first parameter, it appears to be empty. Read the guide using ./install-drupal.sh --help"
@@ -120,10 +123,22 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   fi
   
   # Run the installer.
-  drush site-install $PROFILE --db-url=mysql://$DBUSERNAME:$DBPASSWORD@localhost:$DBPORT/$DBNAME --account-mail=$DRUPALADMINEMAIL --account-name=$DRUPALUSERNAME --account-pass=DRUPALPASSWORD --site-name=$DRUPALSITENAME --site-mail=$SITEEMAIL
+  drush site-install $PROFILE --db-url=mysql://$DBUSERNAME:$DBPASSWORD@localhost:$DBPORT/$DBNAME --account-mail=$DRUPALADMINEMAIL --account-name=$DRUPALUSERNAME --account-pass=$DRUPALPASSWORD --site-name=$DRUPALSITENAME --site-mail=$SITEEMAIL
   
   echo "Installation done."
-  exit 1
+  echo ""
+  echo "Would you like to create new virtual host entry?"
+  read CONFIRM
+  if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
+    ABSOLUTEPATH=$TARGETPATH$PROJECT
+    echo "Enter the fakedomain. Ex. dev.example.com"
+    read FAKEDOMAIN
+    # Navigate back to scripts directory.
+    cd $SCRIPTSDIR
+    sudo ./createVhost.sh $PROJECT $FAKEDOMAIN $TARGETPATH$PROJECT
+  else
+    exit 1
+  fi
 else 
   exit 1
 fi
