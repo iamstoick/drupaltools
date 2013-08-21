@@ -104,7 +104,7 @@ mv $LATESTDIR $PROJECT
 cd $PROJECT
 
 # Setup process.
-echo "Would you like to continue?[Yes/No]"
+echo -n "Would you like to continue[Yes/No]: "
 read CONTINUE
 # Execute when the user agree.
 if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
@@ -112,26 +112,26 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   echo ""
   echo "Collect all necessary variables."
   echo ""
-  echo "Enter your MySQL username."
+  echo -n "Enter your MySQL username: "
   read DBUSERNAME
-  echo "Enter your MySQL password."
+  echo -n "Enter your MySQL password: "
   read DBPASSWORD
-  echo "Enter the MySQL port. By default it should be 3306."
+  echo -n "Enter the MySQL port. By default it should be 3306: "
   read DBPORT
-  echo "We have to create a new database. Please specify the name."
+  echo -n "We have to create a new database. Please specify the name: "
   read DBNAME
   mysqladmin -u $DBUSERNAME -p$DBPASSWORD create $DBNAME
 
   echo ""
-  echo "Enter the admin email."
+  echo -n "Enter the admin email: "
   read DRUPALADMINEMAIL
-  echo "Enter the admin username."
+  echo -n "Enter the admin username: "
   read DRUPALUSERNAME
-  echo "Enter the Drupal admin password."
+  echo -n "Enter the Drupal admin password: "
   read DRUPALPASSWORD
-  echo 'Enter the Drupal sitename.'
+  echo -n 'Enter the Drupal sitename: '
   read DRUPALSITENAME
-  echo "Enter the Drupal system email."
+  echo -n "Enter the Drupal system email: "
   read SITEEMAIL
   if [ "$VERSION" == "drupal-6" ]; then
     PROFILE="default"
@@ -144,11 +144,11 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   
   echo "Installation done."
   echo ""
-  echo "Would you like to create new virtual host entry?[Yes/No]"
+  echo -n "Would you like to create new virtual host entry[Yes/No]: "
   read CONFIRM
   if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
     ABSOLUTEPATH=$TARGETPATH$PROJECT
-    echo "Enter the fakedomain. Ex. dev.example.com"
+    echo -n "Enter the fakedomain. Ex. dev.example.com: "
     read FAKEDOMAIN
     # Navigate back to scripts directory.
     cd $SCRIPTSDIR
@@ -160,7 +160,3 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
 else 
   exit 1
 fi
-
-
-
-
