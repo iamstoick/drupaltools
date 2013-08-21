@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Migrate location field data into geo field.
+ */
+
+ /**
+  * Implements hook_menu().
+  */
+function pathalias_language_reset_menu() {
+  $items = array();
+  $items['admin/config/development/pathalias-update-language'] = array(
+    'title' => 'Update pathalias language',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('pathalias_language_reset_form'),
+    'access arguments' => array('update pathalias language'),
+    'description' => 'Run batch operations to update pathalias language.',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function pathalias_language_reset_permission() {
+  return array(
+    'update pathalias language' => array(
+      'title' => t('Administer update pathalias language'),
+      'description' => t('Permission to administer update pathalias language'),
+    ),
+  );
+}
+
+
+/**
+ * Use Drupal's Form API (FAPI) to wire up buttons to kick off batch operations.
+ */
+function pathalias_language_reset_form($form, &$form_state) {
+  $form['pathalias_language_reset'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Update pathalias language'),
+    '#description' => t('Run batch operations to update pathalias language.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['pathalias_language_reset']['update_pathalias_lang_field'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update pathalias language'),
+  );
+  return $form;
+}
+
+
+/**
+ * Submit handler for hook_form().
+ */
+function pathalias_language_reset_form_submit($form, &$form_state) {
+  pathalias_language_reset_batch();
+}
+
+
+/**
+ * Batch.
+ */
+function pathalias_language_reset_batch() {
+  global $user;
+  $batch = array(
+    'title' => t('Updating'),
+    'operations' => array(
+      array('pathalias_language_reset_update', array()),
+    ),
+    'finished' => 'pathalias_language_reset_finished',
+    'file' => drupal_get_path('module', 'pathalias_language_reset') . '/pathalias_language_reset.inc',
+  );
+  batch_set($batch);
+  // Only needed if not inside a form _submit handler.
+  // Setting redirect in batch_process.
+  // batch_process('node/1');
+}
