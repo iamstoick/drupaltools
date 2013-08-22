@@ -1,1 +1,3 @@
 name = Pathalias Language Reset
+description = Update URL path alias language to neutral.
+core = 7.x
