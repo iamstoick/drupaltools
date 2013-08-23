@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Migrate location field data into geo field.
+ * Bulk update URL path alias language.
  */
 
  /**

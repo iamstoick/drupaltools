@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Migrate location batch api callback.
+ * Batch operations callback.
  */
 
 
