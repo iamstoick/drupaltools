@@ -53,6 +53,9 @@ drush en coder_review -y
 # Update temp path
 drush vset file_temporary_path /tmp
 
+# Replace Ckeditor with unminified version.
+drush php-script --script-path=/home/gerald/Dev/CNNTravel/cnngod7/html/sites/local.travel.cnn.com/php ckeditor_to_unminified
+
 drush cc all
 
 # Revert all features
