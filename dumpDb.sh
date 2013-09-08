@@ -10,22 +10,27 @@
 # Ex: ./dumpDb.sh mydatabasename
 
 # TODO:
-# Support multiple database backup.
-# Support remote backup over SSH tunnel.
+# 1. Support multiple database backup. (Done)
+# 2. Support remote backup over SSH tunnel.
+# 3. Support by-date backup. This is useful when doing daily backup and not
+#    overwrite the existing file. (Done)
 
 # Initialize the options.
 DBUSER=root
 DBPASSWORD=password
 DBHOST=localhost
-DBNAME=$1
+# DBNAME=$1
 BACKUPDIRECTORY=/home/gerald/Projects/SQLBackup
 
 # Notify the user.
 echo "Running mysqldump utility..."
 echo ""
 
-# Dump the database.
-mysqldump -h$DBHOST -u$DBUSER -p$DBPASSWORD $DBNAME | gzip > $BACKUPDIRECTORY/$DBNAME.sql.gz
+# Dump the database(s).
+for databasename in "$@"
+do
+    mysqldump -h$DBHOST -u$DBUSER -p$DBPASSWORD $databasename | gzip > $BACKUPDIRECTORY/$databasename-`date +%d-%m-%y`.sql.gz
+done
 
 # Notify that the dump is done.
 echo "Backup done."
