@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Replace Ckeditor with unminified version.
-DIR=$(pwd)
-echo $DIR
-exit 1
-drush php-script --script-path=sites/*/php ckeditor_to_unminified
-
 # A utility to deploy all local tools after renewing database from production.
 # I used this script as Acquia is using internal configurations in the following modules:
 # 1. APC
@@ -59,13 +53,16 @@ drush en coder_review -y
 # Update temp path
 drush vset file_temporary_path /tmp
 
-# Replace Ckeditor with unminified version.
-DIR=$(pwd)
-exit 1
-drush php-script --script-path=sites/*/php ckeditor_to_unminified
-
 drush cc all
 
 # Revert all features
 drush fra -y
 drush cc all
+
+# Replace Ckeditor with unminified version.
+echo -n "Would you like enable Ckeditor unminified library[Yes/No]: "
+read CONTINUE
+# Execute when the user agree.
+if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
+  drush php-script --script-path=sites/local.travel.cnn.com/php ckeditor_to_unminified
+fi
