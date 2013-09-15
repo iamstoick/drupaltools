@@ -16,11 +16,18 @@
 #    overwrite the existing file. (Done)
 
 # Initialize the options.
+HOMEDIR=$( getent passwd "$USER" | cut -d: -f6 )
+TARGETDIR="SQLBackup"
+BACKUPDIRECTORY=$HOMEDIR/$TARGETDIR
+if [ -d "$BACKUPDIRECTORY" ]; then
+    echo $BACKUPDIRECTORY
+else
+  mkdir $BACKUPDIRECTORY
+fi
 DBUSER=root
 DBPASSWORD=password
 DBHOST=localhost
 # DBNAME=$1
-BACKUPDIRECTORY=/home/gerald/Projects/SQLBackup
 
 # Notify the user.
 echo "Running mysqldump utility..."

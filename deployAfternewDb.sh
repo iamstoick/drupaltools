@@ -8,9 +8,7 @@
 #
 # Some of the modules like Coder and Stage File Proxy are used in local development.
 #
-
 # Run this script after importing new database.
-
 # Travel deployment in local machine.
 
 # Purge all the cache first
@@ -24,7 +22,8 @@ drush en stage_file_proxy -y
 
 # Install Varnish.
 drush en varnish -y
-drush vset varnish_control_key e5a49203-7234-4a79-b2d5-e09623490166 -y
+VARNISHKEY=$(sudo cat /etc/varnish/secret)
+drush vset varnish_control_key $VARNISHKEY -y
 drush vset varnish_version 3 -y
 drush sql-query "INSERT INTO role_permission (rid, permission, module) VALUES (3, 'administer varnish', 'varnish');"
 

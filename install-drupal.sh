@@ -4,9 +4,11 @@
 #
 # Written by Gerald Villorente.
 #
-# This script can be use to directly download the Drupal package. The Drupal version can be specify by specifying # the Drupal version in the parameter - see the manual. After downloading the installer will execute the Drupal 
-# setup process. You have to supply the necessary informations first like DB and Drupal login creds before 
-# running the setup.
+# This script can be use to directly download the Drupal package.
+# The Drupal version can be specify by specifying the Drupal version in the
+# parameter - see the manual. After downloading the installer will execute the
+# Drupal setup process. You have to supply the necessary informations first like
+# DB and Drupal login creds before running the setup.
 #
 # This script requires Drush.
 #
@@ -39,7 +41,7 @@ SCRIPTSDIR=$(pwd)
 if [ -z "$1" ]; then
   echo "Please check your first parameter, it appears to be empty. Read the guide using ./install-drupal.sh --help"
   exit 1
-else 
+else
   # Check if the supplied parameter is --help.
   # Display the help if true.
   if [ "$1" == "--help" ]; then
@@ -67,7 +69,7 @@ fi
 if [ -z "$3" ]; then
   echo "Please check your second parameter, it appears to be empty. Read the guide using ./install-drupal.sh --help"
   exit 1
-else 
+else
   # The version that is going download is the latest Drupal 7.
   if [ "$3" == "drupal-7.x" ]; then
     VERSION=$3
@@ -76,7 +78,7 @@ else
     VERSION=$3
   # The version that is going download is the latest stable Drupal.
   elif [ "$3" == "drupal" ]; then
-    VERSION=$3    
+    VERSION=$3
   else
     echo "The version you entered is wrong."
     exit 1
@@ -135,13 +137,13 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   read SITEEMAIL
   if [ "$VERSION" == "drupal-6" ]; then
     PROFILE="default"
-  else 
+  else
     PROFILE="standard"
   fi
-  
+
   # Run the installer.
   drush site-install $PROFILE --db-url=mysql://$DBUSERNAME:$DBPASSWORD@localhost:$DBPORT/$DBNAME --account-mail=$DRUPALADMINEMAIL --account-name=$DRUPALUSERNAME --account-pass=$DRUPALPASSWORD --site-name=$DRUPALSITENAME --site-mail=$SITEEMAIL
-  
+
   echo "Installation done."
   echo ""
   echo -n "Would you like to create new virtual host entry[Yes/No]: "
@@ -157,6 +159,6 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   else
     exit 1
   fi
-else 
+else
   exit 1
 fi
