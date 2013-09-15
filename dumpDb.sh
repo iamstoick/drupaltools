@@ -6,8 +6,8 @@
 # How to use:
 # Make sure that the this script is executable. If not then you just need to
 # add execute permission by doing this "chmod +x dumpDb.sh".
-# Run the script as normal user and supply the database name as parameter.
-# Ex: ./dumpDb.sh mydatabasename
+# Run the script as normal user and supply the database name(s) as parameter.
+# Ex: ./dumpDb.sh mydatabasename1 mydatabasename2 mydatabasename3
 
 # TODO:
 # 1. Support multiple database backup. (Done)
@@ -19,10 +19,8 @@
 HOMEDIR=$( getent passwd "$USER" | cut -d: -f6 )
 TARGETDIR="SQLBackup"
 BACKUPDIRECTORY=$HOMEDIR/$TARGETDIR
-if [ -d "$BACKUPDIRECTORY" ]; then
-    echo $BACKUPDIRECTORY
-else
-  mkdir $BACKUPDIRECTORY
+if [ ! -d "$BACKUPDIRECTORY" ]; then
+    mkdir $BACKUPDIRECTORY
 fi
 DBUSER=root
 DBPASSWORD=password
