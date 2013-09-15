@@ -11,6 +11,7 @@
 # Run this script after importing new database.
 # Travel deployment in local machine.
 
+# Get the settings.php folder.
 CONFIGDIR=$(basename $(pwd))
 
 # Purge all the cache first
