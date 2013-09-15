@@ -11,6 +11,8 @@
 # Run this script after importing new database.
 # Travel deployment in local machine.
 
+CONFIGDIR=$(basename $(pwd))
+
 # Purge all the cache first
 drush cc all
 
@@ -63,5 +65,6 @@ echo -n "Would you like enable Ckeditor unminified library[Yes/No]: "
 read CONTINUE
 # Execute when the user agree.
 if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ]; then
-  drush php-script --script-path=sites/local.travel.cnn.com/php ckeditor_to_unminified
+  # Let assume that the `php` directory is under settings folder.
+  drush php-script --script-path=sites/$CONFIGDIR/php ckeditor_to_unminified
 fi
