@@ -17,6 +17,15 @@ CONFIGDIR=$(basename $(pwd))
 # Purge all the cache first
 drush cc all
 
+# Revert all features
+drush fra -y
+
+# Run update script
+drush updb -y
+
+# Clear the cache again.
+drush cc all
+
 # Disable CDN module
 drush vset cdn_status 0 -y
 
@@ -44,9 +53,9 @@ drush en views_ui -y
 # Install Memcache Admin.
 drush en memcache_admin -y
 drush sqlq "INSERT INTO role_permission (rid, permission, module) VALUES (3, 'access slab cachedump', 'memcache_admin');"
-# Drop cache_coder table.
+
+# Drop cache_coder table if exists.
 drush sqlq "DROP TABLE cache_coder;"
-drush cc all
 
 # Install coder review.
 drush en coder -y
@@ -54,12 +63,6 @@ drush en coder_review -y
 
 # Update temp path
 drush vset file_temporary_path /tmp
-
-drush cc all
-
-# Revert all features
-drush fra -y
-drush cc all
 
 # Replace Ckeditor with unminified version.
 echo -n "Would you like enable Ckeditor unminified library[Yes/No]: "
@@ -69,3 +72,6 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   # Let assume that the `php` directory is under settings folder.
   drush php-script --script-path=sites/$CONFIGDIR/php ckeditor_to_unminified
 fi
+
+# Clear the cache before exit
+drush cc all
