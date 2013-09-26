@@ -18,7 +18,7 @@
 # 3. Support by-date backup. This is useful when doing daily backup and not
 #    overwrite the existing file. (Done)
 
-# What this script do?
+# What this script does?
 # Backup database in a specified directory in a compressed format. This script
 # also support multiple database backup per execution.
 
