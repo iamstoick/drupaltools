@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+# A script that backup mysql database using `mysqldump` utility.
+# Author: Gerald Villorente
+#
+# TODO:
+# 1. Support multiple database backup. (Done)
+# 2. Support remote backup over SSH tunnel.
+# 3. Support by-date backup. This is useful when doing daily backup and not
+#    overwrite the existing file. (Done)
+#
+# What this script does?
+# Backup database in a specified directory in a compressed format. This script
+# also support multiple database backup per execution.
+#
+bold=`tput bold`
+normal=`tput sgr0`
+#
+# Usage function.
+usage() {
+    echo "
+    For security purposes place your mysql creds somewhere else. In this
+    script the mysql password is in ${bold}/var/secret/key${normal}
+
+    Make sure that the this script is executable. If not then you just need to
+    add execute permission by doing this ${bold}chmod +x dumpDb${normal}.
+    Run the script as normal user and supply the database name(s) as parameter.
+    Ex: ${bold}./dumpDb mydatabasename1 mydatabasename2 mydatabasename3${normal}
+    "
+    exit 1
+}
+#
+# Check if database(s) is/are supplied.
+if [ -z "$1" ]; then
+    echo ""
+    echo "Please check your first parameter, it appears to be empty. Read the guide using ${bold}./dumpDb --help${normal}"
+    echo ""
+    exit 1
+else
+  if [ "$1" == "--help" ]; then
+    usage
+  else
+    # Initialize the target directory.
+    HOMEDIR=$( getent passwd "$USER" | cut -d: -f6 )
+    TARGETDIR="SQLBackups"
+    BACKUPDIRECTORY=$HOMEDIR/$TARGETDIR
+    if [ ! -d "$BACKUPDIRECTORY" ]; then
+        mkdir $BACKUPDIRECTORY
+    fi
+    DBUSER=$(sudo cat /var/secret/key | grep 'DBUSER' | cut -c8-)
+    DBPASS=$(sudo cat /var/secret/key | grep 'DBPASS' | cut -c8-)
+    DBHOST=$(sudo cat /var/secret/key | grep 'DBHOST' | cut -c8-)
+
+    # Notify the user.
+    echo "Running mysqldump utility..."
+    echo ""
+
+    # Dump the database(s).
+    for databasename in "$@"
+    do
+        mysqldump -h$DBHOST -u$DBUSER -p$DBPASS $databasename | gzip > $BACKUPDIRECTORY/$databasename-`date +%d-%m-%y`.sql.gz
+    done
+
+    # Notify that the dump is done.
+    echo "Backup done."
+  fi
+fi
