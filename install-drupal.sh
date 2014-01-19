@@ -150,7 +150,7 @@ if [ "$CONTINUE" == "Yes" ] || [ "$CONTINUE" == "Y" ] || [ "$CONTINUE" == "y" ];
   read DRUPALUSERNAME
   echo -n "Enter the Drupal admin password: "
   read DRUPALPASSWORD
-  echo -n 'Enter the Drupal sitename: '
+  echo -n "Enter the Drupal sitename: "
   read DRUPALSITENAME
   echo -n "Enter the Drupal system email: "
   read SITEEMAIL
