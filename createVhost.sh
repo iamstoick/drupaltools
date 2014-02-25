@@ -19,10 +19,10 @@ help() {
   echo "This piece of code is for creating virtual host entry."
   echo ""
   echo "Usage: sudo ./createvhost.sh [projectName] [fakeDomain] [projectPath]"
-  echo "Ex: sudo ./createvhost.sh mydrupalblog dev.mydrupalblog.com /home/gerald/dev/html/drupalblog"
+  echo "Ex: sudo ./createVhost.sh mydrupalblog dev.mydrupalblog.com /home/gerald/dev/html/drupalblog"
   echo ""
   echo ""
-  echo "Arguments:"  
+  echo "Arguments:"
   echo " projectName                  The name of your project. This will be the filename or the config filename."
   echo " fakeDomain                   This is a fake domain and the value of ServerName."
   echo " projectPath                  The directory where your project currently resides."
@@ -47,14 +47,14 @@ fi
 # Validate the first parameter.
 if [ -z "$1" ]; then
   echo "Please check your first parameter, it appears to be empty. Read the guide using sudo ./createvhost.sh --help"
-else 
+else
   projectName=$1
 fi
 
 # Validate the second parameter.
 if [ -z "$2" ]; then
   echo "Please check your second parameter, it appears to be empty. Read the guide using sudo ./createvhost.sh --help"
-else  
+else
   fakeDomain=$2
 fi
 
@@ -70,14 +70,14 @@ else
     read path
     # TODO - Create a function that will check and read the user input.
     # This function will be useful so the user dont need to re-run the
-    # script again. 
+    # script again.
     if [ ! -d "$path" ]; then
       echo "Please check the correct path and run the script again."
       exit 1
     else
       projectPath=$path
     fi
-  else 
+  else
     projectPath=$3
   fi
 fi
@@ -95,7 +95,7 @@ echo "127.0.0.1  $fakeDomain" >> /etc/hosts
 a2ensite $1
 
 # Restart Apache service.
-sudo /etc/init.d/apache2 restart
+sudo /etc/init.d/apache2 reload
 
 echo ""
 echo ""
