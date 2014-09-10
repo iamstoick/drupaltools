@@ -12,6 +12,15 @@
 # @info
 # Make this file executable. Folder name must be `development` or `dev`.
 # Expected location of this script is at `sites/all/modules/scripts`.
+# This script expects that the `modules` directory structure is something
+# like this:
+#
+# modules
+# -- contrib
+# -- custom
+# -- development OR dev
+# -- featurized
+# -- scripts
 #
 # @depedencies
 # This script requires Drush.
