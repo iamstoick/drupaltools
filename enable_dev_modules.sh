@@ -10,7 +10,8 @@
 # Gerald Villorente
 #
 # @info
-# Make this file executable. Folder name must be "development" or "dev".
+# Make this file executable. Folder name must be `development` or `dev`.
+# Expected location of this script is at `sites/all/modules/scripts`.
 #
 # @depedencies
 # This script requires Drush.
