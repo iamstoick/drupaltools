@@ -12,11 +12,23 @@
 # @info
 # Make this file executable. Folder name must be "development" or "dev".
 #
+# @depedencies
+# This script requires Drush.
+#
+# Check if Drush exists.
+hash drush 2>/dev/null
+if [ $? -eq 1 ]; then
+  echo "Drush is not available."
+  exit
+fi
+# Navigate to parent directory.
 cd ..
 endpath=$(basename $(pwd))
+# If invoked as ./scripts/enable_dev_modules.sh.
 if [ "$endpath" == "all" ]; then
   cd modules
 fi
+# Check if development or dev folder exists.
 if [ -d "development" ]; then
   devFolder="development"
 elif [ -d "dev" ]; then
@@ -25,7 +37,7 @@ else
   echo "Cannot find the target directory."
   exit
 fi
-# Navigate to devFolder.
+# Navigate to $devFolder.
 cd $devFolder
 for d in * ; do
   if [ -d "$d" ]; then
