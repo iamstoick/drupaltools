@@ -32,6 +32,16 @@ if [ $? -eq 1 ]; then
   exit
 fi
 
+# Check if Drupal is installed.
+# Check if user 1 exists.
+drush uinf 1 >& /dev/null
+if [ "$?" -eq "1" ]; then
+  echo "Drupal is not installed! Please install it first."
+  exit
+else
+  echo "Running deployment script..."
+fi
+
 # Navigate to parent directory.
 cd ..
 

@@ -28,6 +28,7 @@ fi
 drush uinf 1 >& /dev/null
 if [ "$?" -eq "1" ]; then
   echo "Drupal is not installed! Please install it first."
+  exit
 else
   echo "Running post-install script..."
   drush dis every_field -y
