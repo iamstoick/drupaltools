@@ -59,7 +59,7 @@ else
   exit
 fi
 
-echo "Deploying development modules..."
+echo "Enabling custom modules..."
 
 # Navigate to $devFolder.
 cd $devFolder

@@ -39,7 +39,7 @@ if [ "$?" -eq "1" ]; then
   echo "Drupal is not installed! Please install it first."
   exit
 else
-  echo "Running deployment script..."
+  echo "Enabling contrib modules and needed themes..."
 fi
 
 # Navigate to parent directory.
