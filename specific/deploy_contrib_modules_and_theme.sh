@@ -65,7 +65,12 @@ echo "Deploying contrib modules..."
 cd $contribFolder
 for d in * ; do
   if [ -d "$d" ]; then
-    drush en $d -y
+    if [ "$d" == 'features_extra' ]; then
+      drush en fe_block -y
+      drush en fe_nodequeue -y
+    else
+      drush en $d -y
+    fi
   fi
 done
 

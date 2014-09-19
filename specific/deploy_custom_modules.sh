@@ -89,6 +89,10 @@ for d in * ; do
   fi
 done
 
+# Run update.php
+echo "Running update.php..."
+drush updb -y
+
 echo "Reverting all features..."
 drush fra -y
 
