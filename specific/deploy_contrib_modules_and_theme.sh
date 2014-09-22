@@ -25,6 +25,9 @@
 # @depedencies
 # This script requires Drush.
 
+# Include other scripts.
+SCRIPT_DIR="${BASH_SOURCE%/*}"
+
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
@@ -78,8 +81,10 @@ echo "Deploying admin themes..."
 drush en rubik -y
 drush vset admin_theme rubik
 
-echo "Clearing all caches..."
-drush cc all
+if [[ ! -d "$SCRIPT_DIR" ]]; then
+  SCRIPT_DIR="$PWD";
+fi
+"$SCRIPT_DIR/common.sh"
 
 echo "Deployment of contrib modules and themes done!"
 

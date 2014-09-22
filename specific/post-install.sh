@@ -16,6 +16,10 @@
 # @depedencies
 # This script requires Drush.
 #
+
+# Include other scripts.
+SCRIPT_DIR="${BASH_SOURCE%/*}"
+
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
@@ -31,17 +35,22 @@ if [ "$?" -eq "1" ]; then
   exit
 else
   echo "Running post-install script..."
-  drush dis every_field -y
-  drush pmu every_field -y
+  # drush dis every_field -y
+  # drush pmu every_field -y
+
+  # Disabling unnecessary blocks in admin theme.
+  drush_extras_status=$(drush sql-query "SELECT status FROM system WHERE name='drush_extras'" 2>&1)
+  if [ "$drush_extras_status" == "1" ]; then
+    drush block-disable --delta=form --module=search --theme=rubik
+    drush block-disable --delta=navigation --module=system --theme=rubik
+    drush block-disable --delta=powered-by --module=system --theme=rubik
+    echo "Form, Navigation, and Powered-by blocks are now disabled in Rubik theme."
+  fi
 fi
 
-echo "Running update.php..."
-drush updb -y
-
-echo "Reverting features..."
-drush fra -y
-
-echo "Clearing all caches..."
-drush cc all
+if [[ ! -d "$SCRIPT_DIR" ]]; then
+  SCRIPT_DIR="$PWD";
+fi
+"$SCRIPT_DIR/common.sh"
 
 echo "Deployment done!"

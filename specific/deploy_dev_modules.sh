@@ -25,6 +25,10 @@
 # @depedencies
 # This script requires Drush.
 #
+
+# Include other scripts.
+SCRIPT_DIR="${BASH_SOURCE%/*}"
+
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
@@ -73,7 +77,9 @@ if [ -d "devel_themer" ]; then
   sudo chmod 777 -R /tmp/devel_themer
 fi
 
-echo "Clearing all caches..."
-drush cc all
+if [[ ! -d "$SCRIPT_DIR" ]]; then
+  SCRIPT_DIR="$PWD";
+fi
+"$SCRIPT_DIR/common.sh"
 
 echo "Deployment done!"

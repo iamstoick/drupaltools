@@ -39,28 +39,12 @@ else
     SCRIPT_DIR="$PWD";
   fi
   "$SCRIPT_DIR/deploy_contrib_modules_and_theme.sh"
+
   # Clear all Drush caches. Make sure that needed commands
   # by the next script is available.
   drush cc drush
+
   "$SCRIPT_DIR/deploy_custom_modules.sh"
+  "$SCRIPT_DIR/post-install.sh"
+  "$SCRIPT_DIR/common.sh"
 fi
-
-# Disabling unnecessary blocks in admin theme.
-drush_extras_status=$(drush sql-query "SELECT status FROM system WHERE name='drush_extras'" 2>&1)
-if [ "$drush_extras_status" == "1" ]; then
-  drush block-disable --delta=form --module=search --theme=rubik
-  drush block-disable --delta=navigation --module=system --theme=rubik
-  drush block-disable --delta=powered-by --module=system --theme=rubik
-  echo "Form, Navigation, and Powered-by blocks are now disabled in Rubik theme."
-fi
-
-echo "Running update.php..."
-drush updb -y
-
-echo "Reverting features..."
-drush fra -y
-
-echo "Clearing all caches..."
-drush cc all
-
-echo "Deployment done!"
