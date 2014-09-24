@@ -17,13 +17,16 @@
 # This script requires Drush.
 #
 
+bold=`tput bold`
+normal=`tput sgr0`
+
 # Include other scripts.
 SCRIPT_DIR="${BASH_SOURCE%/*}"
 
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
-  echo "Drush is not available."
+  echo "${bold}[post-install.sh]${normal}  Drush is not available."
   exit
 fi
 
@@ -31,10 +34,10 @@ fi
 # Check if user 1 exists.
 drush uinf 1 >& /dev/null
 if [ "$?" -eq "1" ]; then
-  echo "Drupal is not installed! Please install it first."
+  echo "${bold}[post-install.sh]${normal}  Drupal is not installed! Please install it first."
   exit
 else
-  echo "Running post-install script..."
+  echo "${bold}[post-install.sh]${normal}  Running post-install script..."
   # drush dis every_field -y
   # drush pmu every_field -y
 
@@ -44,7 +47,7 @@ else
     drush block-disable --delta=form --module=search --theme=rubik
     drush block-disable --delta=navigation --module=system --theme=rubik
     drush block-disable --delta=powered-by --module=system --theme=rubik
-    echo "Form, Navigation, and Powered-by blocks are now disabled in Rubik theme."
+    echo "${bold}[post-install.sh]${normal}  Form, Navigation, and Powered-by blocks are now disabled in Rubik theme."
   fi
 fi
 
@@ -53,4 +56,4 @@ if [[ ! -d "$SCRIPT_DIR" ]]; then
 fi
 "$SCRIPT_DIR/common.sh"
 
-echo "Deployment done!"
+echo "${bold}[post-install.sh]${normal}  Deployment done!"

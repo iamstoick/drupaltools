@@ -9,6 +9,10 @@
 # @author
 # Gerald Villorente
 #
+
+bold=`tput bold`
+normal=`tput sgr0`
+
 # Include other scripts.
 SCRIPT_DIR="${BASH_SOURCE%/*}"
 
@@ -22,7 +26,7 @@ user=$(ps -ef | egrep '(apache2|httpd)' | grep -v `whoami` | grep -v root | head
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
-  echo "Drush is not available."
+  echo "${bold}[reset.sh]${normal}  Drush is not available."
   exit
 fi
 
@@ -30,18 +34,18 @@ fi
 # Check if user 1 exists.
 drush uinf 1 >& /dev/null
 if [ "$?" -eq "1" ]; then
-  echo "Drupal is not installed! Please install it first."
+  echo "${bold}[reset.sh]${normal}  Drupal is not installed! Please install it first."
   exit
 else
-  echo "Dropping all tables in the database..."
+  echo "${bold}[reset.sh]${normal}  Dropping all tables in the database..."
   drush sql-drop -y
   if [ -d "$root" ];  then
     path="$root/$settings_path"
     cd $path
-    echo "Replacing settings.php with default.settings.php..."
+    echo "${bold}[reset.sh]${normal}  Replacing settings.php with default.settings.php..."
     rm settings.php
     cp default.settings.php settings.php
     sudo chown $user settings.php
   fi
 fi
-echo "Done resetting. Please run the installation again."
+echo "${bold}[reset.sh]${normal}  Done resetting. Please run the installation again."

@@ -25,13 +25,16 @@
 # @depedencies
 # This script requires Drush.
 
+bold=`tput bold`
+normal=`tput sgr0`
+
 # Include other scripts.
 SCRIPT_DIR="${BASH_SOURCE%/*}"
 
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
-  echo "Drush is not available."
+  echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Drush is not available."
   exit
 fi
 
@@ -39,10 +42,10 @@ fi
 # Check if user 1 exists.
 drush uinf 1 >& /dev/null
 if [ "$?" -eq "1" ]; then
-  echo "Drupal is not installed! Please install it first."
+  echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Drupal is not installed! Please install it first."
   exit
 else
-  echo "Enabling contrib modules and needed themes..."
+  echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Enabling contrib modules and needed themes..."
 fi
 
 # Navigate to parent directory.
@@ -58,11 +61,11 @@ if [ -d "contrib" ]; then
   contribFolder="contrib"
 else
   contribFolder=${PWD##*/}
-  echo "Cannot find the target directory."
+  echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Cannot find the target directory."
   exit
 fi
 
-echo "Deploying contrib modules..."
+echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Deploying contrib modules..."
 
 # Navigate to $devFolder.
 cd $contribFolder
@@ -77,7 +80,7 @@ for d in * ; do
   fi
 done
 
-echo "Deploying admin themes..."
+echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Deploying admin themes..."
 drush en rubik -y
 drush vset admin_theme rubik
 
@@ -86,5 +89,5 @@ if [[ ! -d "$SCRIPT_DIR" ]]; then
 fi
 "$SCRIPT_DIR/common.sh"
 
-echo "Deployment of contrib modules and themes done!"
+echo "${bold}[deploy_contrib_modules_and_theme.sh]${normal}  Deployment of contrib modules and themes done!"
 

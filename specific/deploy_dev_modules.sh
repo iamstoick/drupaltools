@@ -26,13 +26,19 @@
 # This script requires Drush.
 #
 
+bold=`tput bold`
+normal=`tput sgr0`
+
+bold=`tput bold`
+normal=`tput sgr0`
+
 # Include other scripts.
 SCRIPT_DIR="${BASH_SOURCE%/*}"
 
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
-  echo "Drush is not available."
+  echo "${bold}[deploy_dev_modules.sh]${normal}  Drush is not available."
   exit
 fi
 
@@ -40,10 +46,10 @@ fi
 # Check if user 1 exists.
 drush uinf 1 >& /dev/null
 if [ "$?" -eq "1" ]; then
-  echo "Drupal is not installed! Please install it first."
+  echo "${bold}[deploy_dev_modules.sh]${normal}  Drupal is not installed! Please install it first."
   exit
 else
-  echo "Running deployment script..."
+  echo "${bold}[deploy_dev_modules.sh]${normal}  Running deployment script..."
 fi
 
 # Navigate to parent directory.
@@ -59,11 +65,11 @@ if [ -d "development" ]; then
 elif [ -d "dev" ]; then
   devFolder="dev"
 else
-  echo "Cannot find the target directory."
+  echo "${bold}[deploy_dev_modules.sh]${normal}  Cannot find the target directory."
   exit
 fi
 
-echo "Enabling custom modules..."
+echo "${bold}[deploy_dev_modules.sh]${normal}  Enabling custom modules..."
 
 # Navigate to $devFolder.
 cd $devFolder
@@ -82,4 +88,4 @@ if [[ ! -d "$SCRIPT_DIR" ]]; then
 fi
 "$SCRIPT_DIR/common.sh"
 
-echo "Deployment done!"
+echo "${bold}[deploy_dev_modules.sh]${normal}  Deployment done!"

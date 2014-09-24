@@ -25,10 +25,13 @@
 # @depedencies
 # This script requires Drush.
 
+bold=`tput bold`
+normal=`tput sgr0`
+
 # Check if Drush exists.
 hash drush 2>/dev/null
 if [ $? -eq 1 ]; then
-  echo "Drush is not available."
+  echo "${bold}[deploy_custom_modules.sh]${normal}  Drush is not available."
   exit
 fi
 
@@ -36,10 +39,10 @@ fi
 # Check if user 1 exists.
 drush uinf 1 >& /dev/null
 if [ "$?" -eq "1" ]; then
-  echo "Drupal is not installed! Please install it first."
+  echo "${bold}[deploy_custom_modules.sh]${normal}  Drupal is not installed! Please install it first."
   exit
 else
-  echo "Running deployment script..."
+  echo "${bold}[deploy_custom_modules.sh]${normal}  Running deployment script..."
 fi
 
 # Navigate to parent directory.
@@ -54,11 +57,11 @@ fi
 if [ -d "custom" ]; then
   customFolder="custom"
 else
-  echo "Cannot find the target directory."
+  echo "${bold}[deploy_custom_modules.sh]${normal}  Cannot find the target directory."
   exit
 fi
 
-echo "Deploying custom modules..."
+echo "${bold}[deploy_custom_modules.sh]${normal}  Deploying custom modules..."
 
 # Navigate to $customFolder.
 cd $customFolder
@@ -75,11 +78,11 @@ cd ..
 if [ -d "featurized" ]; then
   featurizedFolder="featurized"
 else
-  echo "Cannot find the target directory."
+  echo "${bold}[deploy_custom_modules.sh]${normal}  Cannot find the target directory."
   exit
 fi
 
-echo "Deploying featurized modules..."
+echo "${bold}[deploy_custom_modules.sh]${normal}  Deploying featurized modules..."
 
 # Navigate to $customFolder.
 cd $featurizedFolder
@@ -90,14 +93,18 @@ for d in * ; do
 done
 
 # Run update.php
-echo "Running update.php..."
+echo "${bold}[deploy_custom_modules.sh]${normal}  Running update.php..."
 drush updb -y
 
-echo "Reverting all features..."
-drush fra -y
+# Check Features module if it is installed.
+features_status=$(drush sql-query "SELECT status FROM system WHERE name='features'" 2>&1)
+if [ "$features_status" == "1" ]; then
+  echo "${bold}[deploy_custom_modules.sh]${normal}  Reverting all features..."
+  drush fra -y
+fi
 
-echo "Clearing all caches..."
+echo "${bold}[deploy_custom_modules.sh]${normal}  Clearing all caches..."
 drush cc all
 
-echo "Deployment of custom and featurized modules done!"
+echo "${bold}[deploy_custom_modules.sh]${normal}  Deployment of custom and featurized modules done!"
 

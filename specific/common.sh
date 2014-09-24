@@ -16,13 +16,21 @@
 # @depedencies
 # This script requires Drush.
 #
-echo "Running update.php..."
+
+bold=`tput bold`
+normal=`tput sgr0`
+
+echo "${bold}[common.sh]${normal}  Running update.php..."
 drush updb -y
 
-echo "Reverting features..."
-drush fra -y
+# Check Features module if it is installed.
+features_status=$(drush sql-query "SELECT status FROM system WHERE name='features'" 2>&1)
+if [ "$features_status" == "1" ]; then
+  echo "${bold}[common.sh]${normal}  Reverting features..."
+  drush fra -y
+fi
 
-echo "Clearing all caches..."
+echo "${bold}[common.sh]${normal}  Clearing all caches..."
 drush cc all
 
-echo "Deployment done!"
+echo "${bold}[common.sh]${normal}  Deployment done!"
